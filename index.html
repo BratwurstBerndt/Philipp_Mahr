@@ -1,15 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekt Sternzeichen</title>
-    <link rel="stylesheet" href="CSS.css" />
-  </head>
-  <body>
-  <H1>
-    Welches Sternzeichen passt zu mir?
-  </H1>
-  <img src="sternzeichen.webp">
-  </body>
+    <title>Musik Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Musik-Explorer</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#artists">Interpreten</a></li>
+                <li><a href="#genres">Genres</a></li>
+                <li><a href="#favorites">Favoriten</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home">
+        <h2>Willkommen</h2>
+        <p>Entdecke neue Musik, speichere deine Favoriten und probiere verschiedene Genres aus.</p>
+    </section>
+    
+    <section id="artists">
+        <h2>Interpreten</h2>
+        <ul id="artist-list">
+            <li><a href="#" onclick="loadSongs('artist1')">Künstler 1</a></li>
+            <li><a href="#" onclick="loadSongs('artist2')">Künstler 2</a></li>
+            <li><a href="#" onclick="loadSongs('artist3')">Künstler 3</a></li>
+        </ul>
+    </section>
+    
+    <section id="genres">
+        <h2>Genres</h2>
+        <ul>
+            <li><a href="#" onclick="filterByGenre('rock')">Rock</a></li>
+            <li><a href="#" onclick="filterByGenre('pop')">Pop</a></li>
+            <li><a href="#" onclick="filterByGenre('hiphop')">Hip-Hop</a></li>
+        </ul>
+    </section>
+    
+    <section id="favorites">
+        <h2>Deine Favoriten</h2>
+        <p>Hier kannst du deine gespeicherten Songs sehen.</p>
+    </section>
+    
+    <section id="contact">
+        <h2>Kontakt</h2>
+        <p>Erreiche uns per E-Mail unter <a href="mailto:info@musikexplorer.de">info@musikexplorer.de</a></p>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Musik Explorer</p>
+    </footer>
+
+    <script>
+        function loadSongs(artist) {
+            alert('Lade Songs für ' + artist); // Hier später die Datenbankanbindung
+        }
+        function filterByGenre(genre) {
+            alert('Filtere nach Genre: ' + genre); // Hier später die Genre-Filterung
+        }
+    </script>
+</body>
 </html>
