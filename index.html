@@ -1,69 +1,229 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musik Explorer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top 10 Songs nach Genre</title>
+  <style>
+   
+    body { 
+      background-color: #000;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 16px;
+      background-color: #111;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.5s ease;
+    }
+
+    .tab:hover,
+    .tab.active {
+      background-color: #1DB954;
+    }
+
+    .song-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #222;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+    }
+
+    .song-link {
+      color: #1DB954;
+      text-decoration: none;
+    }
+
+
+    button {
+      background-color: #1DB954;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      color: black;
+    }
+
+    .delete-button {
+      background-color: #e74c3c;
+    }
+
+    h2 {
+      margin-top: 40px;
+      padding-top: 20px;
+    }
+
+    li {
+      margin: 6px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Musik-Explorer</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#artists">Interpreten</a></li>
-                <li><a href="#genres">Genres</a></li>
-                <li><a href="#favorites">Favoriten</a></li>
-                <li><a href="#contact">Kontakt</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section id="home">
-        <h2>Willkommen</h2>
-        <p>Entdecke neue Musik, speichere deine Favoriten und probiere verschiedene Genres aus.</p>
-    </section>
-    
-    <section id="artists">
-        <h2>Interpreten</h2>
-        <ul id="artist-list">
-            <li><a href="#" onclick="loadSongs('artist1')">Künstler 1</a></li>
-            <li><a href="#" onclick="loadSongs('artist2')">Künstler 2</a></li>
-            <li><a href="#" onclick="loadSongs('artist3')">Künstler 3</a></li>
-        </ul>
-    </section>
-    
-    <section id="genres">
-        <h2>Genres</h2>
-        <ul>
-            <li><a href="#" onclick="filterByGenre('rock')">Rock</a></li>
-            <li><a href="#" onclick="filterByGenre('pop')">Pop</a></li>
-            <li><a href="#" onclick="filterByGenre('hiphop')">Hip-Hop</a></li>
-        </ul>
-    </section>
-    
-    <section id="favorites">
-        <h2>Deine Favoriten</h2>
-        <p>Hier kannst du deine gespeicherten Songs sehen.</p>
-    </section>
-    
-    <section id="contact">
-        <h2>Kontakt</h2>
-        <p>Erreiche uns per E-Mail unter <a href="mailto:info@musikexplorer.de">info@musikexplorer.de</a></p>
-    </section>
-    
-    <footer>
-        <p>&copy; 2025 Musik Explorer</p>
-    </footer>
 
-    <script>
-        function loadSongs(artist) {
-            alert('Lade Songs für ' + artist); // Hier später die Datenbankanbindung
-        }
-        function filterByGenre(genre) {
-            alert('Filtere nach Genre: ' + genre); // Hier später die Genre-Filterung
-        }
-    </script>
+  <h1>Sieh dir die All-time Favourites an ! </h1>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showGenre('pop')">Pop</div>
+    <div class="tab" onclick="showGenre('rock')">Rock</div>
+    <div class="tab" onclick="showGenre('hiphop')">US HipHop</div>
+    <div class="tab" onclick="showGenre('deutschrap')">Deutschrap</div>
+    <div class="tab" onclick="showGenre('techno')">Techno</div>
+    <div class="tab" onclick="showGenre('house')">House</div>
+  </div>
+
+  <div id="songContainer"></div>
+
+  <h2>🎵 Gespeicherte Lieblingssongs</h2>
+  <ul id="savedSongsList"></ul>
+
+  <script>
+    const songs = {
+      pop: [
+        { title: "Michael Jackson – Billie Jean", url: "htts://open.spotify.com/track/5ChkMS8OtdzJeqyybCc9R5" },
+        { title: "Madonna – Like a Prayer", url: "https://open.spotify.com/intl-de/track/1z3ugFmUKoCzGsI6jdY4Ci" },
+        { title: "Adele – Rolling in the Deep", url: "https://open.spotify.com/track/1c8gk2PeTE04A1pIDH9YMk" },
+        { title: "Whitney Houston – I Wanna Dance With Somebody", url: "https://open.spotify.com/intl-de/track/2tUBqZG2AbRi7Q0BIrVrEj" },
+        { title: "Bruno Mars – Uptown Funk", url: "https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS" },
+        { title: "Ed Sheeran – Shape of You", url: "https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3" },
+        { title: "Lady Gaga – Bad Romance", url: "https://open.spotify.com/search/bad%20romance" },
+        { title: "Katy Perry – Firework", url: "https://open.spotify.com/track/1u8c2t2Cy7UBoG4ArRcF5g" },
+        { title: "Taylor Swift – Blank Space", url: "https://open.spotify.com/track/1p80LdxRV74UKvL8gnD7ky" },
+        { title: "The Weeknd – Blinding Lights", url: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b" }
+      ],
+      rock: [
+        { title: "Queen – Bohemian Rhapsody", url: "https://open.spotify.com/track/7tFiyTwD0nx5a1eklYtX2J" },
+        { title: "Nirvana – Smells Like Teen Spirit", url: "https://open.spotify.com/track/5ghIJDpPoe3CfHMGu71E6T" },
+        { title: "Led Zeppelin – Stairway to Heaven", url: "https://open.spotify.com/track/5CQ30WqJwcep0pYcV4AMNc" },
+        { title: "AC/DC – Back In Black", url: "https://open.spotify.com/track/08mG3Y1vljYA6bvDt4Wqkj" },
+        { title: "The Rolling Stones – Paint It Black", url: "https://open.spotify.com/track/7qEHsqek33rTcFNT9PFqLf" },
+        { title: "The Beatles – Hey Jude", url: "https://open.spotify.com/track/7w87IxuO7BDcJ3YUqCyMTT" },
+        { title: "Pink Floyd – Comfortably Numb", url: "https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz" },
+        { title: "Guns N' Roses – Sweet Child O' Mine", url: "https://open.spotify.com/track/7o2CTH4ctstm8TNelqjb51" },
+        { title: "Linkin Park – In the End", url: "https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq" },
+        { title: "Red Hot Chili Peppers – Californication", url: "https://open.spotify.com/track/48UPSzbZjgc449aqz8bxox" }
+      ],
+      hiphop: [
+        { title: "2Pac – Changes", url: "https://open.spotify.com/track/2cjdnUZzMMyuLkI89Y1Lcz" },
+        { title: "The Notorious B.I.G. – Juicy", url: "https://open.spotify.com/track/2aibwv5hGXSgw7Yru8IYTO" },
+        { title: "Dr. Dre – Still D.R.E.", url: "https://open.spotify.com/track/0F7FA14euOIX8KcbEturGH" },
+        { title: "Eminem – Lose Yourself", url: "https://open.spotify.com/track/1fDsrQ23eTAVFElUMaf38X" },
+        { title: "Jay-Z – 99 Problems", url: "https://open.spotify.com/track/6rUp7v3l8yC4TKxAAR5Bmx" },
+        { title: "Kendrick Lamar – HUMBLE.", url: "https://open.spotify.com/track/7KXjTSCq5nL1LoYtL7XAwS" },
+        { title: "Kanye West – Stronger", url: "https://open.spotify.com/track/0jqui0YHFcJfAbY3cIvR2f" },
+        { title: "Travis Scott – SICKO MODE", url: "https://open.spotify.com/track/2xLMifQCjDGFmkHkpNLD9h" },
+        { title: "Nas – N.Y. State of Mind", url: "https://open.spotify.com/track/5ChkzF3i92IPptxkG6gSxY" },
+        { title: "Lil Wayne – A Milli", url: "https://open.spotify.com/track/4p6qE6bGywkbAoE8cRZfVx" }
+      ],
+      deutschrap: [
+        { title: "Bushido – Alles wird gut", url: "https://open.spotify.com/track/6uUcnHRLVqUzf5o94yfnAf" },
+        { title: "Sido – Mein Block", url: "https://open.spotify.com/track/5OvJbUT3yZXkYIuKkG2wE3" },
+        { title: "Kollegah – King", url: "https://open.spotify.com/track/3q5cn3bqJS9U0KC3dtk0Ev" },
+        { title: "Samy Deluxe – Weck mich auf", url: "https://open.spotify.com/track/3i7ZfVHw4aVE2KGoZDaKoe" },
+        { title: "RIN – Bros", url: "https://open.spotify.com/track/6gmkHqlIuRvgFb9MYjDUrC" },
+        { title: "Apache 207 – Roller", url: "https://open.spotify.com/track/5mCPDVBb16L4XQwDdbRUpz" },
+        { title: "Capital Bra – Nur noch Gucci", url: "https://open.spotify.com/track/4h2Vgk6Ot83UYfvM4vByVA" },
+        { title: "Kool Savas – LMS", url: "https://open.spotify.com/track/4R1bUgyQFPzEmdcWk1H71r" },
+        { title: "Cro – Einmal um die Welt", url: "https://open.spotify.com/track/3ATVtAqk0sWeM6L7Hr2cfl" },
+        { title: "Shindy – Raffaello", url: "https://open.spotify.com/track/1j0b5rrbMBdZm5lCz0yIz3" }
+      ],
+      techno: [
+        { title: "Charlotte de Witte – Selected", url: "https://open.spotify.com/track/7BL2CGWe7RgkpxGLrmaC62" },
+        { title: "Amelie Lens – Drift", url: "https://open.spotify.com/track/7m5GjzLqfOV0P4UsShJQbz" },
+        { title: "Adam Beyer – Your Mind", url: "https://open.spotify.com/track/3jIVleT7pZlT5vHkymb7Bv" },
+        { title: "Ben Klock – Subzero", url: "https://open.spotify.com/track/4vqsizt66jj2YV3wmWbzHJ" },
+        { title: "Maceo Plex – Solar", url: "https://open.spotify.com/track/2oCvvfp8X1H7ga1xxOj0A4" },
+        { title: "Nina Kraviz – Ghetto Kraviz", url: "https://open.spotify.com/track/4QgRiVjeGmNU0V9Kjxu9Fb" },
+        { title: "Richie Hawtin – Spastik", url: "https://open.spotify.com/track/5r8kcwXvxtXBrlGRugmfRU" },
+        { title: "Dax J – Wir Leben Für Die Nacht", url: "https://open.spotify.com/track/3os1HgFjp5nx9nZZEld1tD" },
+        { title: "Chris Liebing – Novembergrey", url: "https://open.spotify.com/track/2qfJKFXovsqjfyywB5ryHj" },
+        { title: "Jeff Mills – The Bells", url: "https://open.spotify.com/track/5Rf0lqZgS7m16OSndvMO2z" }
+      ],
+      house: [
+        { title: "Calvin Harris – Summer", url: "https://open.spotify.com/track/6j7DsgaZhhDPoSeXM5b6by" },
+        { title: "David Guetta – Titanium", url: "https://open.spotify.com/track/0uQqxLyEMt6fYkgAmFkHKn" },
+        { title: "Duke Dumont – Ocean Drive", url: "https://open.spotify.com/track/6ZG1vJ0wUIfxw0oTrYsj5N" },
+        { title: "Zedd – Clarity", url: "https://open.spotify.com/track/0JkCVC41jl8L2SvftL4h8f" },
+        { title: "Disclosure – Latch", url: "https://open.spotify.com/track/6EugFVHhbNwATCC7lZ9d4d" },
+        { title: "Martin Solveig – Hello", url: "https://open.spotify.com/track/6v6gicXjxurZQzTsh5LPs4" },
+        { title: "Deadmau5 – Strobe", url: "https://open.spotify.com/track/3r0M5A56de2ddCXMfjo3UJ" },
+        { title: "Avicii – Wake Me Up", url: "https://open.spotify.com/track/4xjV27exseQ9jHeR7COEXQ" },
+        { title: "Krewella – Alive", url: "https://open.spotify.com/track/3j7og5MbGTjt4DF6l9zZFF" },
+        { title: "Skrillex – Bangarang", url: "https://open.spotify.com/track/2C69GmwnP29VfX8wyzsm6u" }
+      ]
+    };
+
+    function showGenre(genre) {
+      const container = document.getElementById("songContainer");
+      container.innerHTML = "";
+
+      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+      event.target.classList.add("active");
+
+      songs[genre].forEach(song => {
+        const songDiv = document.createElement("div");
+        songDiv.className = "song-item";
+        songDiv.innerHTML = `
+          <a class="song-link" href="${song.url}" target="_blank">${song.title}</a>
+          <button onclick="saveSong('${song.title}', '${song.url}')">Speichern</button>
+        `;
+        container.appendChild(songDiv);
+      });
+    }
+
+    function saveSong(title, url) {
+      let saved = JSON.parse(localStorage.getItem("savedSongs") || "[]");
+      if (!saved.find(song => song.title === title)) {
+        saved.push({ title, url });
+        localStorage.setItem("savedSongs", JSON.stringify(saved));
+        renderSavedSongs();
+      }
+    }
+
+    function deleteSong(title) {
+      let saved = JSON.parse(localStorage.getItem("savedSongs") || "[]");
+      saved = saved.filter(song => song.title !== title);
+      localStorage.setItem("savedSongs", JSON.stringify(saved));
+      renderSavedSongs();
+    }
+
+    function renderSavedSongs() {
+      const saved = JSON.parse(localStorage.getItem("savedSongs") || "[]");
+      const list = document.getElementById("savedSongsList");
+      list.innerHTML = "";
+      saved.forEach(song => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <a class="song-link" href="${song.url}" target="_blank">${song.title}</a>
+          <button class="delete-button" onclick="deleteSong('${song.title}')">Löschen</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    // Start mit Pop
+    showGenre('pop');
+    renderSavedSongs();
+  </script>
+
 </body>
 </html>
+
